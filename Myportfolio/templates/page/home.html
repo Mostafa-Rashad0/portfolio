@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - MR Portfolio{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>Hi, I'm <span class="highlight">Mostafa</span> 👋</h1>
+        <p class="hero-text">A passionate software engineer specializing in backend development with Django and building amazing web experiences.</p>
+        <div class="hero-buttons">
+            <a href="{% url 'projects' %}" class="btn primary-btn">View My Work</a>
+            <a href="{% url 'contact' %}" class="btn secondary-btn">Get in Touch</a>
+        </div>
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="section-header">
+        <h2>About Me</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="about-content">
+        <div class="about-text">
+            <p>I'm a software developer with a passion for creating efficient and scalable backend solutions. My expertise includes:</p>
+            <ul class="skills-list">
+                <li>
+                    <span class="skill-icon">💻</span>
+                    <div class="skill-content">
+                        <h3>Programming languages</h3>
+                        <p>Python, C++, Java, C#</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="skill-icon">🧠</span>
+                    <div class="skill-content">
+                        <h3>Machine Learning</h3>
+                        <p>Proficient in Python, Pandas, Scikit-learn, and TensorFlow</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="skill-icon">🚀</span>
+                    <div class="skill-content">
+                        <h3>Backend Development</h3>
+                        <p>Specialized in Django</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="skill-icon">💾</span>
+                    <div class="skill-content">
+                        <h3>Database Design</h3>
+                        <p>Experience with SQL, PostgreSQL, and database optimization</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="skill-icon">🔧</span>
+                    <div class="skill-content">
+                        <h3>Problem Solving</h3>
+                        <p>Strong analytical and debugging skills</p>
+                    </div>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="featured-projects">
+    <div class="section-header">
+        <h2>Featured Projects</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+        {% for project in projects|slice:":3" %}
+            <div class="project-card">
+                <div class="image-container">
+                    {% if project.image %}
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-thumbnail">
+                    {% else %}
+                        <div class="no-image">No Image Available</div>
+                    {% endif %}
+                </div>
+                <div class="content">
+                    <h3>{{ project.title }}</h3>
+                    <p>{{ project.description|truncatewords:20 }}</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">{{ project.technology }}</span>
+                    </div>
+                    <a href="{% url 'eachproject' project.id %}" class="btn">View Details</a>
+                </div>
+            </div>
+        {% empty %}
+            <p class="no-projects">Projects coming soon!</p>
+        {% endfor %}
+    </div>
+    <div class="view-all">
+        <a href="{% url 'projects' %}" class="btn primary-btn">View All Projects</a>
+    </div>
+</section>
+
+<section class="contact-cta">
+    <div class="cta-content">
+        <h2>Let's Work Together</h2>
+        <p>Have a project in mind? I'd love to help you bring it to life.</p>
+        <a href="{% url 'contact' %}" class="btn primary-btn">Get in Touch</a>
+    </div>
+</section>
+{% endblock %}

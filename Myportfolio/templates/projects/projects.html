@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}My Projects{% endblock %}
+
+{% block content %}
+<section class="projects-section">
+    <div class="section-header">
+        <h2>My Projects</h2>
+        <div class="section-line"></div>
+        <p class="section-description">Here are some of the things I've built recently.</p>
+    </div>
+
+    <div class="projects-grid">
+        {% for project in projects %}
+            <div class="project-card">
+                <div class="image-container js-open-modal">
+                    {% if project.image %}
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-thumbnail">
+                    {% else %}
+                        <div class="no-image">No Image Available</div>
+                    {% endif %}
+                </div>
+                <div class="content">
+                    <h3>{{ project.title }}</h3>
+                    <p>{{ project.description }}</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">{{ project.technology }}</span>
+                    </div>
+                    <a href="{% url 'eachproject' project.id %}" class="btn">View Details</a>
+                </div>
+            </div>
+
+            {% if project.image %}
+            <div class="image-modal" id="modal-{{ project.id }}">
+                <span class="close-modal">&times;</span>
+                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="modal-content">
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all image containers
+    const imageContainers = document.querySelectorAll('.js-open-modal');
+    
+    // Add click event to each image container
+    imageContainers.forEach(container => {
+        container.addEventListener('click', function() {
+            const projectCard = this.closest('.project-card');
+            const modalId = `modal-${projectCard.nextElementSibling.id.split('-')[1]}`;
+            const modal = document.getElementById(modalId);
+            
+            if (modal) {
+                modal.style.display = 'block';
+                setTimeout(() => modal.classList.add('show'), 10);
+            }
+        });
+    });
+    
+    // Close modal functionality
+    const closeButtons = document.querySelectorAll('.close-modal');
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const modal = this.closest('.image-modal');
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 300);
+        });
+    });
+    
+    // Close on clicking outside the image
+    const modals = document.querySelectorAll('.image-modal');
+    modals.forEach(modal => {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                modal.classList.remove('show');
+                setTimeout(() => modal.style.display = 'none', 300);
+            }
+        });
+    });
+    
+    // Close on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const visibleModal = document.querySelector('.image-modal.show');
+            if (visibleModal) {
+                visibleModal.classList.remove('show');
+                setTimeout(() => visibleModal.style.display = 'none', 300);
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.title }} | My Portfolio{% endblock %}
+
+{% block content %}
+<div class="project-detail-container">
+    <div class="project-header">
+        <h1>{{ project.title }}</h1>
+        <div class="project-meta">
+            <span class="tech-stack">{{ project.technology }}</span>
+            <span class="date">Created: {{ project.made_at|date:"F Y" }}</span>
+        </div>
+    </div>
+
+    <div class="project-content">
+        <div class="project-image-container js-open-modal">
+            {% if project.image %}
+                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-thumbnail">
+            {% else %}
+                <div class="no-image">No Image Available</div>
+            {% endif %}
+        </div>
+
+        <div class="project-info">
+            <div class="description">
+                <h2>About This Project</h2>
+                <p>{{ project.description }}</p>
+            </div>
+
+            <div class="project-links">
+                {% if project.github_link %}
+                    <a href="{{ project.github_link }}" target="_blank" class="btn github-btn">
+                        <i class="fab fa-github"></i> View Source Code
+                    </a>
+                {% endif %}
+                <a href="{% url 'projects' %}" class="btn back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Projects
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if project.image %}
+<div class="image-modal" id="modal-detail">
+    <span class="close-modal">&times;</span>
+    <img src="{{ project.image.url }}" alt="{{ project.title }}" class="modal-content">
+</div>
+{% endif %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const imageContainer = document.querySelector('.js-open-modal');
+    const modal = document.getElementById('modal-detail');
+    
+    if (imageContainer && modal) {
+        // Open modal on image click
+        imageContainer.addEventListener('click', function() {
+            modal.style.display = 'block';
+            setTimeout(() => modal.classList.add('show'), 10);
+        });
+
+        // Close modal on close button click
+        const closeButton = modal.querySelector('.close-modal');
+        closeButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeModal();
+        });
+
+        // Close modal when clicking outside the image
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('show')) {
+                closeModal();
+            }
+        });
+
+        function closeModal() {
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 300);
+        }
+    }
+});
+</script>
+{% endblock %}

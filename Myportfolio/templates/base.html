@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Rashad Portfolio{% endblock %}</title>
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+<link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+<link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+<!-- CSS -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    {% include 'includes/navbar.html' %}
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+    {% include 'includes/footer.html' %}
+
+    <script>
+        // Image Modal functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all project thumbnails
+            const thumbnails = document.querySelectorAll('.project-thumbnail');
+            
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    const modal = this.nextElementSibling;
+                    modal.style.display = "block";
+                });
+            });
+
+            // Get all close buttons
+            const closeButtons = document.querySelectorAll('.close-modal');
+            
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentElement.style.display = "none";
+                });
+            });
+
+            // Close modal when clicking outside the image
+            window.addEventListener('click', function(event) {
+                if (event.target.classList.contains('image-modal')) {
+                    event.target.style.display = "none";
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === "Escape") {
+                    const modals = document.querySelectorAll('.image-modal');
+                    modals.forEach(modal => {
+                        modal.style.display = "none";
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+

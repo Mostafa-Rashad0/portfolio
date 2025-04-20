@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="thanks-container">
+    <div class="thanks-wrapper">
+        <div class="thanks-card">
+            <div class="thanks-content">
+                <i class="fas fa-check-circle success-icon"></i>
+                <h1 class="thanks-title">Thank You!</h1>
+                <p class="thanks-message">Your message has been successfully sent.</p>
+                <p class="thanks-followup">We appreciate you reaching out to us. We'll review your message and get back to you via email as soon as possible.</p>
+                <div class="thanks-action">
+                    <a href="{% url 'home' %}" class="btn-home">
+                        <i class="fas fa-home"></i>Return to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

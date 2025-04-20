@@ -1,0 +1,12 @@
+{% block navbar %}
+<nav class="navbar">
+    <div class="container">
+    <a href="/" class="logo">MR</a>
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'projects' %}">Projects</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+    </ul>
+    </div>
+</nav>
+{% endblock %}
